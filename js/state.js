@@ -33,5 +33,12 @@ const state = {
   recT:'Récord histórico',recVal:'5',recLbl:'títulos mundiales',recF:'br',recName:'BRASIL',recSub:'La selección más ganadora\nde la historia del Mundial',
   sedT:'3 países sede',sedLines:'us | EE.UU. | 11\nmx | México | 3\nca | Canadá | 2',sedTot:'Total: 16 estadios · 104 partidos',
   timT:'Mundiales en USA',timLines:'1994 | 1° Mundial en EE.UU.\n2026 | 2° Mundial (con MX y CA)\n32 | años desde el último',
-  curT:'Dato curioso',curIc:'🏟️',curMain:'El Estadio Azteca es el [único en la historia] en vivir [3 Mundiales]',curYears:'1970 · 1986 · 2026'
+  curT:'Dato curioso',curIc:'🏟️',curMain:'El Estadio Azteca es el [único en la historia] en vivir [3 Mundiales]',curYears:'1970 · 1986 · 2026',
+
+  // — Plantillas genéricas (UI/UX) —
+  covK:'PRESENTAMOS',covT:'Nuevo diseño',covSub:'Una experiencia más simple, rápida y clara para todo tu equipo.',covTag:'Disponible ya',
+  kpiK:'MÉTRICA',kpiT:'Crecimiento mensual',kpiVal:'+248%',kpiDelta:'vs. el mes anterior',kpiDir:'up',kpiLbl:'usuarios activos',kpiDesc:'El mejor mes desde el lanzamiento.',
+  stepK:'GUÍA',stepT:'Cómo empezar',stepLines:'Creá tu cuenta gratis\nConfigurá tu perfil\nInvitá a tu equipo\nEmpezá a crear',
+  featK:'NOVEDADES',featT:'Qué incluye',featLines:'Modo oscuro automático\nExportación en alta resolución\nPlantillas personalizables\nColaboración en tiempo real',
+  testiK:'TESTIMONIO',testiT:'Lo que dicen',testiText:'Cambió por completo nuestro flujo de trabajo. No volvemos atrás.',testiName:'Ana Pérez',testiRole:'Product Designer'
 };

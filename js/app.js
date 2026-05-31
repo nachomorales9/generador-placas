@@ -20,11 +20,32 @@ function draw() {
   ].join(';');
   holder.innerHTML =
     `<div class="placa ${config.size} t-${config.type}" id="placa" style="${styleVars}">` +
-    `<div class="bgdark"></div><div class="inner">${render()}</div></div>`;
+    `<div class="bgdark"></div><div class="inner"><div class="fit" id="fit">${render()}</div></div></div>`;
+  fitContent();
+  // Re-ajustar cuando carguen banderas/logo (su ancho puede cambiar el layout)
+  $('placa').querySelectorAll('img').forEach(im => {
+    if (!im.complete) im.addEventListener('load', fitContent, { once: true });
+  });
+}
+
+/* ---------- Auto-ajuste: escala el contenido para que SIEMPRE entre ----------
+   Resuelve el corte en formato Post y la rotura al cambiar de tipografía. */
+function fitContent() {
+  const fit = document.getElementById('fit');
+  if (!fit) return;
+  fit.style.transform = 'none';
+  // El navegador necesita el layout sin escalar para medir el desborde real
+  const needH = fit.scrollHeight, availH = fit.clientHeight;
+  const needW = fit.scrollWidth, availW = fit.clientWidth;
+  const scale = Math.min(1, availH / needH, availW / needW);
+  fit.style.transform = scale < 0.999 ? `scale(${scale})` : 'none';
 }
 
 /* ---------- Selector de tipo ---------- */
-$('types').innerHTML = TYPES.map(t => `<div class="type ${t[0] === config.type ? 'sel' : ''}" data-t="${t[0]}">${t[1]}</div>`).join('');
+$('types').innerHTML = TYPES.map(t => {
+  const divider = t[0] === 'cover' ? '<div class="type-group">Genéricas · UI/UX</div>' : '';
+  return divider + `<div class="type ${t[0] === config.type ? 'sel' : ''}" data-t="${t[0]}">${t[1]}</div>`;
+}).join('');
 $('types').onclick = e => {
   const x = e.target.closest('.type');
   if (!x) return;

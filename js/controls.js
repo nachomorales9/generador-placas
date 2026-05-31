@@ -38,7 +38,12 @@ const BIND_MAP = {
   record: [['c_t','recT'],['c_v','recVal'],['c_lbl','recLbl'],['c_f','recF'],['c_n','recName'],['c_s','recSub']],
   sedes:  [['c_t','sedT'],['c_l','sedLines'],['c_tot','sedTot']],
   time:   [['c_t','timT'],['c_l','timLines']],
-  curio:  [['c_t','curT'],['c_ic','curIc'],['c_y','curYears'],['c_m','curMain']]
+  curio:  [['c_t','curT'],['c_ic','curIc'],['c_y','curYears'],['c_m','curMain']],
+  cover:  [['c_k','covK'],['c_tag','covTag'],['c_t','covT'],['c_sub','covSub']],
+  kpi:    [['c_k','kpiK'],['c_t','kpiT'],['c_v','kpiVal'],['c_lbl','kpiLbl'],['c_dl','kpiDelta'],['c_dir','kpiDir'],['c_d','kpiDesc']],
+  steps:  [['c_k','stepK'],['c_t','stepT'],['c_l','stepLines']],
+  feat:   [['c_k','featK'],['c_t','featT'],['c_l','featLines']],
+  testi:  [['c_k','testiK'],['c_t','testiT'],['c_txt','testiText'],['c_n','testiName'],['c_r','testiRole']]
 };
 
 function renderControls() {
@@ -77,6 +82,19 @@ function renderControls() {
     h = inp('c_t', state.timT, 'Título') + txt('c_l', state.timLines, 'Líneas: año | evento');
   } else if (type === 'curio') {
     h = inp('c_t', state.curT, 'Título') + `<div class="row2">${inp('c_ic', state.curIc, 'Emoji grande')}${inp('c_y', state.curYears, 'Años / pie')}</div>` + txt('c_m', state.curMain, 'Texto principal (usá [palabra] para destacar)');
+  }
+  // ---- Plantillas genéricas (UI/UX) ----
+  else if (type === 'cover') {
+    h = `<div class="row2">${inp('c_k', state.covK, 'Bajada')}${inp('c_tag', state.covTag, 'Etiqueta (opcional)')}</div>` + txt('c_t', state.covT, 'Título') + txt('c_sub', state.covSub, 'Subtítulo');
+  } else if (type === 'kpi') {
+    const dirOpts = `<option value="up" ${state.kpiDir === 'up' ? 'selected' : ''}>▲ Sube (verde)</option><option value="down" ${state.kpiDir === 'down' ? 'selected' : ''}>▼ Baja (rojo)</option>`;
+    h = `<div class="row2">${inp('c_k', state.kpiK, 'Bajada')}${inp('c_t', state.kpiT, 'Título')}</div><div class="row2">${inp('c_v', state.kpiVal, 'Valor grande')}${inp('c_lbl', state.kpiLbl, 'Etiqueta')}</div><div class="row2">${inp('c_dl', state.kpiDelta, 'Texto de variación')}${sel('c_dir', state.kpiDir, 'Tendencia', dirOpts)}</div>` + txt('c_d', state.kpiDesc, 'Descripción');
+  } else if (type === 'steps') {
+    h = `<div class="row2">${inp('c_k', state.stepK, 'Bajada')}${inp('c_t', state.stepT, 'Título')}</div>` + txt('c_l', state.stepLines, 'Un paso por línea');
+  } else if (type === 'feat') {
+    h = `<div class="row2">${inp('c_k', state.featK, 'Bajada')}${inp('c_t', state.featT, 'Título')}</div>` + txt('c_l', state.featLines, 'Una feature por línea');
+  } else if (type === 'testi') {
+    h = `<div class="row2">${inp('c_k', state.testiK, 'Bajada')}${inp('c_t', state.testiT, 'Título')}</div>` + txt('c_txt', state.testiText, 'Testimonio') + `<div class="row2">${inp('c_n', state.testiName, 'Nombre')}${inp('c_r', state.testiRole, 'Rol / cargo')}</div>`;
   }
 
   $('controls').innerHTML = h;

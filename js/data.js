@@ -27,14 +27,18 @@ Object.values(GROUPS).forEach(g => g.forEach(t => ALL.push(t)));
 const flag = iso => `https://flagcdn.com/w320/${iso}.png`;
 const tn = iso => { const t = ALL.find(x => x[0] === iso); return t ? t[1] : iso; };
 
-// Tipos de placa
+// Tipos de placa. Agrupados: fútbol (Mundial) + genéricos (UI/UX).
 const TYPES = [
+  // — Fútbol / Mundial —
   ['grupo','Grupo'],['match','Partido del día'],['result','Resultado'],
   ['rank','Ranking / Top'],['poll','Encuesta'],['quote','Frase / Cita'],
   ['day','Jornada'],['stat','Estadística'],
   ['big','Número gigante'],['count','Cuenta regresiva'],['vs','Comparación VS'],
   ['list','Lista de datos'],['record','Récord histórico'],['sedes','Sedes / Países'],
-  ['time','Timeline'],['curio','Curiosidad']
+  ['time','Timeline'],['curio','Curiosidad'],
+  // — Genéricos (UI/UX, anuncios, métricas) —
+  ['cover','Portada / Título'],['kpi','Métrica / KPI'],['steps','Pasos / Guía'],
+  ['feat','Features'],['testi','Testimonio']
 ];
 
 // Fuentes disponibles. value = font-family CSS, label = nombre visible.

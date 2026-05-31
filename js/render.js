@@ -96,6 +96,27 @@ function render() {
     const main = escBr(state.curMain).replace(/\[([^\]]+)\]/g, '<span class="hl">$1</span>');
     body = `${head('¿Sabías que...?', state.curT)}<div class="curio"><div class="cic">${esc(state.curIc)}</div><div class="ctxt2">${main}</div><div class="cyears">${esc(state.curYears)}</div></div>${foot()}`;
   }
+  // ---- Plantillas genéricas (UI/UX) ----
+  else if (type === 'cover') {
+    const logo = config.showLogo ? `<div class="head" style="justify-content:center"><img class="logo" src="${config.customLogo || CUP}" crossorigin="anonymous"></div>` : '';
+    body = `${logo}<div class="cover"><div class="ck">${esc(state.covK)}</div><div class="ctitle">${escBr(state.covT)}</div><div class="csub">${escBr(state.covSub)}</div>${state.covTag.trim() ? `<div class="ctag">${esc(state.covTag)}</div>` : ''}</div>${foot()}`;
+  }
+  else if (type === 'kpi') {
+    const dir = state.kpiDir === 'down' ? 'down' : 'up';
+    const arrow = dir === 'down' ? '▼' : '▲';
+    body = `${head(state.kpiK, state.kpiT)}<div class="kpicard"><div class="kpival">${esc(state.kpiVal)}</div>${state.kpiDelta.trim() ? `<div class="kpidelta ${dir}">${arrow} ${esc(state.kpiDelta)}</div>` : ''}<div class="kpilbl">${esc(state.kpiLbl)}</div>${state.kpiDesc.trim() ? `<div class="kpidesc">${escBr(state.kpiDesc)}</div>` : ''}</div>${foot()}`;
+  }
+  else if (type === 'steps') {
+    const lines = state.stepLines.split('\n').filter(x => x.trim());
+    body = `${head(state.stepK, state.stepT)}<div class="steplist">${lines.map((l, i) => `<div class="step"><span class="sn">${i + 1}</span><span class="st">${esc(l.trim())}</span></div>`).join('')}</div>${foot()}`;
+  }
+  else if (type === 'feat') {
+    const lines = state.featLines.split('\n').filter(x => x.trim());
+    body = `${head(state.featK, state.featT)}<div class="featlist">${lines.map(l => `<div class="feat"><span class="fc">✓</span>${esc(l.trim())}</div>`).join('')}</div>${foot()}`;
+  }
+  else if (type === 'testi') {
+    body = `${head(state.testiK, state.testiT)}<div class="testi"><div class="tqm">"</div><div class="tq">${escBr(state.testiText)}</div><div class="tnm">${esc(state.testiName)}</div><div class="tr">${esc(state.testiRole)}</div></div>${foot()}`;
+  }
 
   return body;
 }
