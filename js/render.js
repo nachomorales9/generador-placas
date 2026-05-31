@@ -9,11 +9,17 @@ const escBr = s => esc(s).replace(/\n/g, '<br>');
 
 const img = (iso, attrs = '') => `<img src="${flag(iso)}" crossorigin="anonymous" ${attrs}>`;
 
+// Devuelve el HTML del logo según config.logo (default | none | emoji:X | custom)
+function logoMarkup() {
+  const L = config.logo;
+  if (L === 'none') return '';
+  if (L === 'custom' && config.customLogo) return `<img class="logo" src="${config.customLogo}" crossorigin="anonymous">`;
+  if (typeof L === 'string' && L.startsWith('emoji:')) return `<div class="logo logo-emoji">${esc(L.slice(6))}</div>`;
+  return `<img class="logo" src="${CUP}" crossorigin="anonymous">`; // default
+}
+
 function head(k, g) {
-  const logo = config.showLogo
-    ? `<img class="logo" src="${config.customLogo || CUP}" crossorigin="anonymous">`
-    : '';
-  return `<div class="head">${logo}<div class="txt"><div class="k">${esc(k)}</div><div class="g">${esc(g)}</div></div></div>`;
+  return `<div class="head">${logoMarkup()}<div class="txt"><div class="k">${esc(k)}</div><div class="g">${esc(g)}</div></div></div>`;
 }
 
 function foot() {
@@ -98,7 +104,8 @@ function render() {
   }
   // ---- Plantillas genéricas (UI/UX) ----
   else if (type === 'cover') {
-    const logo = config.showLogo ? `<div class="head" style="justify-content:center"><img class="logo" src="${config.customLogo || CUP}" crossorigin="anonymous"></div>` : '';
+    const lm = logoMarkup();
+    const logo = lm ? `<div class="head" style="justify-content:center">${lm}</div>` : '';
     body = `${logo}<div class="cover"><div class="ck">${esc(state.covK)}</div><div class="ctitle">${escBr(state.covT)}</div><div class="csub">${escBr(state.covSub)}</div>${state.covTag.trim() ? `<div class="ctag">${esc(state.covTag)}</div>` : ''}</div>${foot()}`;
   }
   else if (type === 'kpi') {
@@ -116,6 +123,32 @@ function render() {
   }
   else if (type === 'testi') {
     body = `${head(state.testiK, state.testiT)}<div class="testi"><div class="tqm">"</div><div class="tq">${escBr(state.testiText)}</div><div class="tnm">${esc(state.testiName)}</div><div class="tr">${esc(state.testiRole)}</div></div>${foot()}`;
+  }
+  // ---- Marketing / Social ----
+  else if (type === 'promo') {
+    body = `${head('OFERTA', state.promoT)}<div class="promo"><div class="pbadge">${esc(state.promoBadge)}</div><div class="pprices">${state.promoOld.trim() ? `<span class="pold">${esc(state.promoOld)}</span>` : ''}<span class="pnew">${esc(state.promoNew)}</span></div>${state.promoCta.trim() ? `<div class="pcta">${esc(state.promoCta)}</div>` : ''}</div>${foot()}`;
+  }
+  else if (type === 'event') {
+    body = `${head('EVENTO', state.evtT)}<div class="evt"><div class="edate"><div class="eday">${esc(state.evtDay)}</div><div class="emonth">${esc(state.evtMonth)}</div></div><div class="ewhere">${escBr(state.evtWhere)}</div>${state.evtCta.trim() ? `<div class="ecta">${esc(state.evtCta)}</div>` : ''}</div>${foot()}`;
+  }
+  else if (type === 'profile') {
+    const av = (config.logo !== 'default' && config.logo !== 'none') ? logoMarkup().replace('class="logo','class="pavatar-logo') : '';
+    const avatar = av || `<div class="pavatar">${esc((state.profInit || state.profName[0] || '?'))}</div>`;
+    body = `${avatar}<div class="prof"><div class="pname">${esc(state.profName)}</div><div class="prole">${esc(state.profRole)}</div>${state.profHandle.trim() ? `<div class="phandle">${esc(state.profHandle)}</div>` : ''}<div class="pbio">${escBr(state.profBio)}</div></div>${foot()}`;
+  }
+  else if (type === 'pricing') {
+    const lines = state.priceLines.split('\n').filter(x => x.trim());
+    body = `${head('PLAN', state.pricePlan)}<div class="pricecard"><div class="priceval">${esc(state.priceVal)}<span class="priceper">${esc(state.pricePer)}</span></div><div class="pricelist">${lines.map(l => `<div class="pli"><span class="pc">✓</span>${esc(l.trim())}</div>`).join('')}</div>${state.priceCta.trim() ? `<div class="pcta">${esc(state.priceCta)}</div>` : ''}</div>${foot()}`;
+  }
+  else if (type === 'faq') {
+    body = `${head('PREGUNTAS', 'FAQ')}<div class="faq"><div class="fqmark">?</div><div class="fq">${escBr(state.faqQ)}</div><div class="fa">${escBr(state.faqA)}</div></div>${foot()}`;
+  }
+  else if (type === 'agenda') {
+    const lines = state.agLines.split('\n').filter(x => x.trim());
+    body = `${head('AGENDA', state.agT)}<div class="aglist">${lines.map(l => {
+      const p = l.split('|').map(x => x.trim());
+      return `<div class="agrow"><span class="agt">${esc(p[0] || '')}</span><span class="aga">${esc(p[1] || '')}</span></div>`;
+    }).join('')}</div>${foot()}`;
   }
 
   return body;

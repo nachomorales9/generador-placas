@@ -1,19 +1,25 @@
 /* =========================================================
-   state.js — estado global y valores por defecto
+   state.js — estado global, configuración y valores por defecto
    ========================================================= */
 
 // Configuración global (aplica a todas las placas)
 const config = {
-  type: 'grupo',
+  type: 'cover',
   size: 'square',
   accColor: '#ffce2e',
   textColor: '#ffffff',
   fontDisp: "'Baloo 2',sans-serif",   // fuente de títulos / números
   fontBody: "'Nunito',sans-serif",    // fuente de texto
-  bg: 0,                              // índice en BACKGROUNDS
-  brand: '@fulbazo_ · Todo el Mundial en un lugar', // texto del pie
-  showLogo: true,
-  customLogo: ''                     // dataURL si el usuario sube un logo
+  // fondo
+  bg: 0,                              // índice en BACKGROUNDS, o 'custom'
+  bgC1: '#1e3a5f', bgC2: '#0a1a30', bgAngle: 160,  // degradé personalizado
+  glow: true,                        // brillo de acento detrás
+  // estilo
+  radius: 18,                        // redondeo de esquinas (px)
+  // marca y logo
+  logo: 'default',                   // token de LOGOS
+  customLogo: '',                    // dataURL si el usuario sube un logo
+  brand: '@fulbazo_ · Todo el Mundial en un lugar'
 };
 
 // Datos por tipo de placa
@@ -40,5 +46,13 @@ const state = {
   kpiK:'MÉTRICA',kpiT:'Crecimiento mensual',kpiVal:'+248%',kpiDelta:'vs. el mes anterior',kpiDir:'up',kpiLbl:'usuarios activos',kpiDesc:'El mejor mes desde el lanzamiento.',
   stepK:'GUÍA',stepT:'Cómo empezar',stepLines:'Creá tu cuenta gratis\nConfigurá tu perfil\nInvitá a tu equipo\nEmpezá a crear',
   featK:'NOVEDADES',featT:'Qué incluye',featLines:'Modo oscuro automático\nExportación en alta resolución\nPlantillas personalizables\nColaboración en tiempo real',
-  testiK:'TESTIMONIO',testiT:'Lo que dicen',testiText:'Cambió por completo nuestro flujo de trabajo. No volvemos atrás.',testiName:'Ana Pérez',testiRole:'Product Designer'
+  testiK:'TESTIMONIO',testiT:'Lo que dicen',testiText:'Cambió por completo nuestro flujo de trabajo. No volvemos atrás.',testiName:'Ana Pérez',testiRole:'Product Designer',
+
+  // — Marketing / Social —
+  promoBadge:'50% OFF',promoT:'Black Friday',promoOld:'$99',promoNew:'$49',promoCta:'Aprovechá hoy',
+  evtDay:'24',evtMonth:'OCT',evtT:'Lanzamiento oficial',evtWhere:'Online · 18:00 hs',evtCta:'Reservá tu lugar',
+  profName:'Ana Pérez',profRole:'Product Designer',profHandle:'@anaux',profBio:'Diseño productos digitales centrados en las personas.',profInit:'A',
+  pricePlan:'PRO',priceVal:'$29',pricePer:'/mes',priceLines:'Proyectos ilimitados\nExportación 4K\nSoporte prioritario\nSin marca de agua',priceCta:'Empezar gratis',
+  faqQ:'¿Cómo funciona?',faqA:'Elegís una plantilla, editás los datos y descargás la imagen en alta resolución. Así de simple.',
+  agT:'Agenda del día',agLines:'09:00 | Apertura y bienvenida\n10:30 | Charla principal\n13:00 | Almuerzo\n15:00 | Talleres\n18:00 | Cierre'
 };

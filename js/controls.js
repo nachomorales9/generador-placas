@@ -43,7 +43,13 @@ const BIND_MAP = {
   kpi:    [['c_k','kpiK'],['c_t','kpiT'],['c_v','kpiVal'],['c_lbl','kpiLbl'],['c_dl','kpiDelta'],['c_dir','kpiDir'],['c_d','kpiDesc']],
   steps:  [['c_k','stepK'],['c_t','stepT'],['c_l','stepLines']],
   feat:   [['c_k','featK'],['c_t','featT'],['c_l','featLines']],
-  testi:  [['c_k','testiK'],['c_t','testiT'],['c_txt','testiText'],['c_n','testiName'],['c_r','testiRole']]
+  testi:  [['c_k','testiK'],['c_t','testiT'],['c_txt','testiText'],['c_n','testiName'],['c_r','testiRole']],
+  promo:  [['c_badge','promoBadge'],['c_t','promoT'],['c_old','promoOld'],['c_new','promoNew'],['c_cta','promoCta']],
+  event:  [['c_day','evtDay'],['c_month','evtMonth'],['c_t','evtT'],['c_where','evtWhere'],['c_cta','evtCta']],
+  profile:[['c_n','profName'],['c_init','profInit'],['c_r','profRole'],['c_h','profHandle'],['c_bio','profBio']],
+  pricing:[['c_plan','pricePlan'],['c_cta','priceCta'],['c_v','priceVal'],['c_per','pricePer'],['c_l','priceLines']],
+  faq:    [['c_q','faqQ'],['c_a','faqA']],
+  agenda: [['c_t','agT'],['c_l','agLines']]
 };
 
 function renderControls() {
@@ -95,6 +101,21 @@ function renderControls() {
     h = `<div class="row2">${inp('c_k', state.featK, 'Bajada')}${inp('c_t', state.featT, 'Título')}</div>` + txt('c_l', state.featLines, 'Una feature por línea');
   } else if (type === 'testi') {
     h = `<div class="row2">${inp('c_k', state.testiK, 'Bajada')}${inp('c_t', state.testiT, 'Título')}</div>` + txt('c_txt', state.testiText, 'Testimonio') + `<div class="row2">${inp('c_n', state.testiName, 'Nombre')}${inp('c_r', state.testiRole, 'Rol / cargo')}</div>`;
+  }
+  // ---- Marketing / Social ----
+  else if (type === 'promo') {
+    h = `<div class="row2">${inp('c_badge', state.promoBadge, 'Insignia')}${inp('c_t', state.promoT, 'Título')}</div><div class="row2">${inp('c_old', state.promoOld, 'Precio anterior')}${inp('c_new', state.promoNew, 'Precio nuevo')}</div>` + inp('c_cta', state.promoCta, 'Botón / CTA');
+  } else if (type === 'event') {
+    h = `<div class="row2">${inp('c_day', state.evtDay, 'Día')}${inp('c_month', state.evtMonth, 'Mes')}</div>` + inp('c_t', state.evtT, 'Título') + inp('c_where', state.evtWhere, 'Lugar / hora') + inp('c_cta', state.evtCta, 'Botón / CTA');
+  } else if (type === 'profile') {
+    h = `<div class="row2">${inp('c_n', state.profName, 'Nombre')}${inp('c_init', state.profInit, 'Inicial (avatar)')}</div><div class="row2">${inp('c_r', state.profRole, 'Rol')}${inp('c_h', state.profHandle, 'Usuario / @')}</div>` + txt('c_bio', state.profBio, 'Bio');
+    h += `<div class="hintline">Si elegís un logo/emoji arriba, se usa como avatar.</div>`;
+  } else if (type === 'pricing') {
+    h = `<div class="row2">${inp('c_plan', state.pricePlan, 'Plan')}${inp('c_cta', state.priceCta, 'Botón / CTA')}</div><div class="row2">${inp('c_v', state.priceVal, 'Precio')}${inp('c_per', state.pricePer, 'Período')}</div>` + txt('c_l', state.priceLines, 'Una feature por línea');
+  } else if (type === 'faq') {
+    h = inp('c_q', state.faqQ, 'Pregunta') + txt('c_a', state.faqA, 'Respuesta');
+  } else if (type === 'agenda') {
+    h = inp('c_t', state.agT, 'Título') + txt('c_l', state.agLines, 'Líneas: hora | actividad');
   }
 
   $('controls').innerHTML = h;

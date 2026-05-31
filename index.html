@@ -3,59 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Super Creador de Placas</title>
+<title>Creador de Placas — Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Baloo+2:wght@600;700;800&family=Bebas+Neue&family=Inter:wght@600;700;800&family=Montserrat:wght@600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&family=Poppins:wght@600;700;800&family=Righteous&family=Roboto+Condensed:wght@700&family=Rubik:wght@600;700;800&family=Russo+One&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Baloo+2:wght@600;700;800&family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Lobster&family=Montserrat:wght@600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&family=Playfair+Display:wght@700;800;900&family=Poppins:wght@600;700;800&family=Righteous&family=Roboto+Condensed:wght@700&family=Rubik:wght@600;700;800&family=Russo+One&family=Space+Grotesk:wght@600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-<h1 class="disp">⚡ SUPER Creador de Placas</h1>
-<p class="sub">16 tipos · 3 tamaños · fuentes, colores y fondos personalizables. Todo con tu logo y datos reales del Mundial.</p>
 
-<div class="app">
-  <div class="panel">
-    <h3>1 · Formato</h3>
-    <div class="sizes" id="sizes">
-      <div class="size sel" data-s="square">Post<span class="lbl">1080×1080</span></div>
-      <div class="size" data-s="story">Story / Reel<span class="lbl">1080×1920</span></div>
-      <div class="size" data-s="land">Twitter / X<span class="lbl">1600×900</span></div>
-    </div>
-
-    <h3>2 · Tipo de placa</h3>
-    <div class="types" id="types"></div>
-
-    <h3>3 · Tipografía</h3>
-    <div class="row2">
-      <div class="field"><label>Títulos / números</label><select id="fontDisp"></select></div>
-      <div class="field"><label>Texto</label><select id="fontBody"></select></div>
-    </div>
-
-    <h3>4 · Color de acento</h3>
-    <div class="colors" id="colors"></div>
-    <input type="color" id="custompick" style="display:none">
-    <div class="field" style="margin-top:10px"><label>Color del texto</label><input type="color" id="textColor" value="#ffffff"></div>
-
-    <h3>5 · Fondo</h3>
-    <div class="bgs" id="bgs"></div>
-
-    <h3>6 · Marca y logo</h3>
-    <div class="field"><label>Texto del pie</label><input id="brand"></div>
-    <div class="field"><label><input type="checkbox" id="showLogo" style="width:auto;margin-right:6px;vertical-align:middle">Mostrar logo</label></div>
-    <div class="field"><label>Logo personalizado (PNG/SVG)</label><input type="file" id="logoUpload" accept="image/*"></div>
-    <button class="btn-ghost" id="logoReset">Volver al logo por defecto</button>
-
-    <h3>7 · Datos</h3>
-    <div id="controls"></div>
-    <button class="btn-dl" id="dl">⬇ Descargar imagen</button>
+<header class="topbar">
+  <div class="brandmark"><span class="logo-dot">⚡</span><div><div class="tb-title">Creador de Placas</div><div class="tb-sub">27 plantillas · 18 fuentes · degradés · todo configurable</div></div></div>
+  <div class="topbar-actions">
+    <span class="size-info" id="sizeInfo">1080 × 1080 px</span>
+    <button class="btn-dl" id="dl">⬇ Descargar PNG</button>
   </div>
+</header>
 
-  <div class="preview-wrap">
-    <div class="size-info" id="sizeInfo">1080 × 1080 px</div>
-    <div class="hint">Vista previa (se descarga en alta resolución)</div>
-    <div id="placaHolder"></div>
-  </div>
+<div class="layout">
+  <!-- ===================== PANEL DE CONTROLES ===================== -->
+  <aside class="sidebar">
+
+    <section class="sec"><h3>Formato</h3>
+      <div class="sizes" id="sizes">
+        <div class="size sel" data-s="square">Post<span class="lbl">1080×1080</span></div>
+        <div class="size" data-s="story">Story / Reel<span class="lbl">1080×1920</span></div>
+        <div class="size" data-s="land">Twitter / X<span class="lbl">1600×900</span></div>
+      </div>
+    </section>
+
+    <section class="sec"><h3>Plantilla</h3>
+      <div class="types" id="types"></div>
+    </section>
+
+    <section class="sec"><h3>Tipografía</h3>
+      <div class="row2">
+        <div class="field"><label>Títulos / números</label><select id="fontDisp"></select></div>
+        <div class="field"><label>Texto</label><select id="fontBody"></select></div>
+      </div>
+    </section>
+
+    <section class="sec"><h3>Color de acento</h3>
+      <div class="colors" id="colors"></div>
+      <input type="color" id="custompick" style="display:none">
+      <div class="field" style="margin-top:10px"><label>Color del texto</label><input type="color" id="textColor" value="#ffffff"></div>
+    </section>
+
+    <section class="sec"><h3>Fondo</h3>
+      <div class="bgs" id="bgs"></div>
+      <div class="bg-custom" id="bgCustom" hidden>
+        <div class="row2">
+          <div class="field"><label>Color 1</label><input type="color" id="bgC1"></div>
+          <div class="field"><label>Color 2</label><input type="color" id="bgC2"></div>
+        </div>
+        <div class="field"><label>Ángulo · <span id="bgAngleVal">160°</span></label><input type="range" id="bgAngle" min="0" max="360" value="160"></div>
+      </div>
+      <label class="switch"><input type="checkbox" id="glow" checked> Brillo de acento detrás</label>
+    </section>
+
+    <section class="sec"><h3>Estilo</h3>
+      <div class="field"><label>Redondeo de esquinas · <span id="radiusVal">18px</span></label><input type="range" id="radius" min="0" max="40" value="18"></div>
+    </section>
+
+    <section class="sec"><h3>Logo</h3>
+      <div class="logos" id="logos"></div>
+      <div class="field" style="margin-top:8px"><label>Logo personalizado (PNG/SVG)</label><input type="file" id="logoUpload" accept="image/*"></div>
+      <button class="btn-ghost" id="logoReset">Quitar logo subido</button>
+    </section>
+
+    <section class="sec"><h3>Marca / pie</h3>
+      <div class="field"><input id="brand"></div>
+    </section>
+
+    <section class="sec"><h3>Datos</h3>
+      <div id="controls"></div>
+    </section>
+  </aside>
+
+  <!-- ===================== ESCENARIO / VISTA PREVIA ===================== -->
+  <main class="stage">
+    <div class="stage-canvas">
+      <div class="placa-scale" id="placaScale"><div id="placaHolder"></div></div>
+    </div>
+    <div class="stage-hint">Vista previa en vivo · se descarga en alta resolución</div>
+  </main>
 </div>
 
 <script src="js/data.js"></script>

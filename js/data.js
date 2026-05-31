@@ -1,5 +1,6 @@
 /* =========================================================
-   data.js — datos estáticos: equipos, tipos, fuentes, fondos
+   data.js — datos estáticos: equipos, tipos, fuentes,
+   fondos (degradés), logos y acentos
    ========================================================= */
 
 // Logo (trofeo) extraído a un archivo real
@@ -27,7 +28,7 @@ Object.values(GROUPS).forEach(g => g.forEach(t => ALL.push(t)));
 const flag = iso => `https://flagcdn.com/w320/${iso}.png`;
 const tn = iso => { const t = ALL.find(x => x[0] === iso); return t ? t[1] : iso; };
 
-// Tipos de placa. Agrupados: fútbol (Mundial) + genéricos (UI/UX).
+// Tipos de placa. Agrupados por categoría para el selector.
 const TYPES = [
   // — Fútbol / Mundial —
   ['grupo','Grupo'],['match','Partido del día'],['result','Resultado'],
@@ -38,11 +39,16 @@ const TYPES = [
   ['time','Timeline'],['curio','Curiosidad'],
   // — Genéricos (UI/UX, anuncios, métricas) —
   ['cover','Portada / Título'],['kpi','Métrica / KPI'],['steps','Pasos / Guía'],
-  ['feat','Features'],['testi','Testimonio']
+  ['feat','Features'],['testi','Testimonio'],
+  // — Marketing / Social —
+  ['promo','Promo / Oferta'],['event','Evento'],['profile','Perfil'],
+  ['pricing','Plan / Precio'],['faq','Pregunta / FAQ'],['agenda','Agenda']
 ];
 
-// Fuentes disponibles. value = font-family CSS, label = nombre visible.
-// Todas se cargan desde Google Fonts en index.html.
+// Primer tipo de cada grupo, para dibujar los separadores en el selector.
+const TYPE_GROUPS = { cover: 'Genéricas · UI/UX', promo: 'Marketing · Social' };
+
+// Fuentes disponibles (cargadas desde Google Fonts en index.html)
 const FONTS = [
   ["'Baloo 2',sans-serif",      'Baloo 2 (redonda)'],
   ["'Bebas Neue',sans-serif",   'Bebas Neue (alta)'],
@@ -58,28 +64,53 @@ const FONTS = [
   ["'Inter',sans-serif",        'Inter'],
   ["'Roboto Condensed',sans-serif",'Roboto Condensed'],
   ["'Rubik',sans-serif",        'Rubik'],
+  ["'Space Grotesk',sans-serif",'Space Grotesk'],
+  ["'Playfair Display',serif",  'Playfair (elegante)'],
+  ["'Lobster',cursive",         'Lobster (script)'],
   ["Georgia,serif",             'Georgia (serif)']
 ];
 
-// Presets de fondo: [nombre, color1 (top), color2 (base), glow rgba]
+// Presets de fondo: [nombre, gradiente CSS]
 const BACKGROUNDS = [
-  ['Verde',   '#0e1f15', '#06120b', 'rgba(47,150,71,.4)'],
-  ['Noche',   '#171a26', '#0a0b12', 'rgba(116,140,223,.35)'],
-  ['Vino',    '#2a0f17', '#140509', 'rgba(224,50,42,.35)'],
-  ['Azul',    '#0d2236', '#05101c', 'rgba(58,140,255,.4)'],
-  ['Violeta', '#241638', '#0e0820', 'rgba(192,132,252,.4)'],
-  ['Carbón',  '#1c1f26', '#0b0d12', 'rgba(255,255,255,.18)'],
-  ['Arena',   '#33291a', '#15100a', 'rgba(255,206,46,.32)'],
-  ['Esmeralda','#0a2c2a','#04100f', 'rgba(25,195,125,.4)']
+  // oscuros
+  ['Verde',     'linear-gradient(160deg,#0e1f15,#06120b)'],
+  ['Esmeralda', 'linear-gradient(160deg,#0a3d2e,#04120d)'],
+  ['Noche',     'linear-gradient(160deg,#171a26,#0a0b12)'],
+  ['Océano',    'linear-gradient(160deg,#0d2b3e,#05101c)'],
+  ['Cielo',     'linear-gradient(160deg,#1e3a5f,#0a1a30)'],
+  ['Violeta',   'linear-gradient(160deg,#2a1a4a,#0e0820)'],
+  ['Vino',      'linear-gradient(160deg,#2a0f17,#140509)'],
+  ['Fuego',     'linear-gradient(160deg,#3a1410,#160505)'],
+  ['Cobre',     'linear-gradient(160deg,#3a2416,#160d06)'],
+  ['Carbón',    'linear-gradient(160deg,#23272f,#0b0d12)'],
+  ['Slate',     'linear-gradient(160deg,#1e293b,#0b1120)'],
+  ['Negro',     'linear-gradient(160deg,#1a1a1a,#000000)'],
+  // vivos / coloridos
+  ['Sunset',    'linear-gradient(160deg,#ff6a3d,#c0392b)'],
+  ['Mango',     'linear-gradient(160deg,#f7971e,#ffd200)'],
+  ['Aurora',    'linear-gradient(160deg,#7b2ff7,#f107a3)'],
+  ['Neón',      'linear-gradient(160deg,#11998e,#38ef7d)'],
+  ['Cyber',     'linear-gradient(160deg,#0f0c29,#302b63,#24243e)'],
+  ['Rosa',      'linear-gradient(160deg,#ec008c,#fc6767)'],
+  ['Índigo',    'linear-gradient(160deg,#4568dc,#b06ab3)'],
+  ['Menta',     'linear-gradient(160deg,#2af598,#009efd)'],
+  ['Lava',      'linear-gradient(160deg,#f12711,#f5af19)'],
+  ['Galaxia',   'linear-gradient(160deg,#41295a,#2f0743)']
 ];
 
-// Colores de acento sugeridos: [nombre, acento, texto]
+// Colores de acento sugeridos: [nombre, color]
 const ACCENTS = [
-  ['Dorado',  '#ffce2e', '#ffffff'],
-  ['Verde',   '#19c37d', '#ffffff'],
-  ['Celeste', '#3ad0ff', '#ffffff'],
-  ['Rojo',    '#ff5252', '#ffffff'],
-  ['Naranja', '#ff8a3d', '#ffffff'],
-  ['Lila',    '#c084fc', '#ffffff'],
-  ['Blanco',  '#ffffff', '#ffffff']
+  ['Dorado','#ffce2e'],['Ámbar','#ffb300'],['Verde','#19c37d'],['Lima','#9ee37d'],
+  ['Esmeralda','#10b981'],['Celeste','#3ad0ff'],['Azul','#4f8cff'],['Índigo','#7c8cff'],
+  ['Violeta','#c084fc'],['Magenta','#ff5cc8'],['Rosa','#ff7eb6'],['Rojo','#ff5252'],
+  ['Coral','#ff7a59'],['Naranja','#ff8a3d'],['Turquesa','#2dd4bf'],['Blanco','#ffffff']
+];
+
+// Logos disponibles. Token: 'default' | 'none' | 'emoji:X' | 'custom'
+const LOGOS = [
+  ['default','🏆 Trofeo'],['none','Sin logo'],
+  ['emoji:⚽','⚽'],['emoji:🏆','🏆'],['emoji:🥇','🥇'],['emoji:⭐','⭐'],
+  ['emoji:🔥','🔥'],['emoji:👑','👑'],['emoji:⚡','⚡'],['emoji:🚀','🚀'],
+  ['emoji:🎯','🎯'],['emoji:💎','💎'],['emoji:✨','✨'],['emoji:🎨','🎨'],
+  ['emoji:📊','📊'],['emoji:🏀','🏀'],['emoji:🎮','🎮'],['emoji:🎧','🎧']
 ];
