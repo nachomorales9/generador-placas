@@ -185,7 +185,14 @@ $('logoReset').onclick = () => {
 $('brand').value = config.brand;
 $('brand').oninput = e => { config.brand = e.target.value; draw(); };
 
-/* ---------- Descargar imagen ---------- */
+/* ---------- Descargar / Guardar imagen ----------
+   En móvil usamos el menú "Compartir" del sistema (Web Share API): permite
+   "Guardar imagen / Guardar en Fotos" → va a la GALERÍA, no a Archivos.
+   En escritorio (o si no hay soporte) descargamos con un enlace normal. */
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+const canvasToBlob = canvas => new Promise(res => canvas.toBlob(res, 'image/png'));
+
 $('dl').onclick = async () => {
   const el = $('placa');
   const btn = $('dl');
@@ -200,10 +207,28 @@ $('dl').onclick = async () => {
     const targetW = { square: 1080, story: 1080, land: 1600 }[config.size];
     const scale = targetW / el.offsetWidth;
     const canvas = await html2canvas(el, { scale, useCORS: true, backgroundColor: null });
+    const fileName = `placa-${config.type}-${config.size}.png`;
+    const blob = await canvasToBlob(canvas);
+    const file = new File([blob], fileName, { type: 'image/png' });
+
+    // 1) Móvil con soporte: abrir hoja de "Compartir" → Guardar en Fotos/Galería
+    if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: fileName });
+        return; // listo, el usuario eligió dónde guardarla
+      } catch (e) {
+        if (e && e.name === 'AbortError') return; // canceló el menú
+        // si falla el share, seguimos al método de descarga normal
+      }
+    }
+
+    // 2) Escritorio / fallback: descarga con enlace
+    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.download = `placa-${config.type}-${config.size}.png`;
-    a.href = canvas.toDataURL('image/png');
+    a.download = fileName;
+    a.href = url;
     a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   } catch (err) {
     console.error(err);
     alert('No se pudo generar la imagen. Si abrís el archivo localmente, las banderas pueden bloquear la descarga: subilo a Vercel o serví la carpeta con un servidor local.');
@@ -215,6 +240,7 @@ $('dl').onclick = async () => {
 };
 
 /* ---------- Arranque ---------- */
+if (isMobile) $('dl').textContent = '⬇ Guardar imagen';
 sizeInfo.textContent = SIZE_LABELS[config.size];
 renderControls();
 draw();
