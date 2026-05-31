@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Creador de Placas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Baloo+2:wght@600;700;800&family=Bebas+Neue&family=Inter:wght@600;700;800&family=Montserrat:wght@600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&family=Poppins:wght@600;700;800&family=Righteous&family=Roboto+Condensed:wght@700&family=Rubik:wght@600;700;800&family=Russo+One&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<h1 class="disp">⚡ SUPER Creador de Placas</h1>
+<p class="sub">16 tipos · 3 tamaños · fuentes, colores y fondos personalizables. Todo con tu logo y datos reales del Mundial.</p>
+
+<div class="app">
+  <div class="panel">
+    <h3>1 · Formato</h3>
+    <div class="sizes" id="sizes">
+      <div class="size sel" data-s="square">Post<span class="lbl">1080×1080</span></div>
+      <div class="size" data-s="story">Story / Reel<span class="lbl">1080×1920</span></div>
+      <div class="size" data-s="land">Twitter / X<span class="lbl">1600×900</span></div>
+    </div>
+
+    <h3>2 · Tipo de placa</h3>
+    <div class="types" id="types"></div>
+
+    <h3>3 · Tipografía</h3>
+    <div class="row2">
+      <div class="field"><label>Títulos / números</label><select id="fontDisp"></select></div>
+      <div class="field"><label>Texto</label><select id="fontBody"></select></div>
+    </div>
+
+    <h3>4 · Color de acento</h3>
+    <div class="colors" id="colors"></div>
+    <input type="color" id="custompick" style="display:none">
+    <div class="field" style="margin-top:10px"><label>Color del texto</label><input type="color" id="textColor" value="#ffffff"></div>
+
+    <h3>5 · Fondo</h3>
+    <div class="bgs" id="bgs"></div>
+
+    <h3>6 · Marca y logo</h3>
+    <div class="field"><label>Texto del pie</label><input id="brand"></div>
+    <div class="field"><label><input type="checkbox" id="showLogo" style="width:auto;margin-right:6px;vertical-align:middle">Mostrar logo</label></div>
+    <div class="field"><label>Logo personalizado (PNG/SVG)</label><input type="file" id="logoUpload" accept="image/*"></div>
+    <button class="btn-ghost" id="logoReset">Volver al logo por defecto</button>
+
+    <h3>7 · Datos</h3>
+    <div id="controls"></div>
+    <button class="btn-dl" id="dl">⬇ Descargar imagen</button>
+  </div>
+
+  <div class="preview-wrap">
+    <div class="size-info" id="sizeInfo">1080 × 1080 px</div>
+    <div class="hint">Vista previa (se descarga en alta resolución)</div>
+    <div id="placaHolder"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/render.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
