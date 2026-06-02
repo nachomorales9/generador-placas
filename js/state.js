@@ -4,15 +4,15 @@
 
 // Configuración global (aplica a todas las placas)
 const config = {
-  type: 'cover',
+  type: 'match',
   size: 'square',
-  accColor: '#ffce2e',
-  textColor: '#ffffff',
-  fontDisp: "'Baloo 2',sans-serif",   // fuente de títulos / números
-  fontBody: "'Nunito',sans-serif",    // fuente de texto
+  accColor: '#ffcb3d',                // dorado copa (base Fulbazo)
+  textColor: '#f1f7f2',              // blanco hueso
+  fontDisp: "'Oswald',sans-serif",    // títulos / números — condensada deportiva
+  fontBody: "'Inter',sans-serif",     // texto — sans limpia tipo SF
   // fondo
-  bg: 0,                              // índice en BACKGROUNDS, o 'custom'
-  bgC1: '#1e3a5f', bgC2: '#0a1a30', bgAngle: 160,  // degradé personalizado
+  bg: 0,                              // índice en BACKGROUNDS (0 = degradé Marca), o 'custom'
+  bgC1: '#0c5a2c', bgC2: '#04110b', bgAngle: 160,  // degradé personalizado (arranca en verde marca)
   glow: true,                        // brillo de acento detrás
   // estilo
   radius: 18,                        // redondeo de esquinas (px)
@@ -25,6 +25,12 @@ const config = {
 // Datos por tipo de placa
 const state = {
   grupo:'J',
+  // Tabla de posiciones — DIF y PTS se calculan solos; se ordena de mayor a menor.
+  // Formato por línea: iso | PJ | PG | PE | PP | GF | GC
+  tablaT:'Grupo J', tablaQ:2,
+  tablaLines:'ar | 3 | 2 | 1 | 0 | 6 | 2\ndz | 3 | 2 | 0 | 1 | 4 | 3\nat | 3 | 1 | 0 | 2 | 3 | 4\njo | 3 | 0 | 1 | 2 | 1 | 5',
+  // Previa / día de partido
+  pmPhase:'Grupo C', pmHome:'ar', pmAway:'br', pmDate:'12 JUN', pmTime:'21:00', pmStad:'MetLife', pmCta:'Votá en la web',
   mhome:'ar',maway:'br',mtime:'21:00',mstad:'MetLife',
   rhome:'ar',raway:'fr',rsh:3,rsa:1,rinfo:"MetLife · 90+3'",
   rkTitle:'Top 5 candidatos',rkLines:'Argentina\nFrancia\nBrasil\nEspaña\nAlemania',

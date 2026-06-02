@@ -34,6 +34,37 @@ function render() {
     const g = GROUPS[state.grupo];
     body = `${head('Mundial 2026', 'Grupo ' + state.grupo)}<div class="grid">${g.map(t => `<div class="cell">${img(t[0])}<span class="nm">${esc(t[1])}</span></div>`).join('')}</div>${foot()}`;
   }
+  else if (type === 'tabla') {
+    const qcut = Math.max(0, parseInt(state.tablaQ, 10) || 0);
+    const rows = state.tablaLines.split('\n').map(x => x.trim()).filter(Boolean).map(l => {
+      const p = l.split('|').map(s => s.trim());
+      const iso = (p[0] || 'ar').toLowerCase();
+      const num = i => parseInt(p[i], 10) || 0;
+      const pj = num(1), pg = num(2), pe = num(3), pp = num(4), gf = num(5), gc = num(6);
+      return { iso, name: tn(iso), pj, pg, pe, pp, gf, gc, dif: gf - gc, pts: pg * 3 + pe };
+    });
+    // Ordena por PTS, luego diferencia de gol, luego goles a favor
+    rows.sort((a, b) => b.pts - a.pts || b.dif - a.dif || b.gf - a.gf);
+    const dif = d => (d > 0 ? '+' : '') + d;
+    const headRow = `<div class="trow thead"><span class="pos">#</span><span class="team">Equipo</span>` +
+      ['PJ', 'G', 'E', 'P', 'GF', 'GC', 'DG', 'Pts'].map(c => `<span class="num">${c}</span>`).join('') + `</div>`;
+    const bodyRows = rows.map((r, i) =>
+      `<div class="trow${i < qcut ? ' q' : ''}"><span class="pos">${i + 1}</span>` +
+      `<span class="team">${img(r.iso)}<span class="tnm">${esc(r.name)}</span></span>` +
+      `<span class="num">${r.pj}</span><span class="num">${r.pg}</span><span class="num">${r.pe}</span><span class="num">${r.pp}</span>` +
+      `<span class="num">${r.gf}</span><span class="num">${r.gc}</span><span class="num">${dif(r.dif)}</span><span class="num pts">${r.pts}</span></div>`
+    ).join('');
+    body = `${head('Mundial 2026', state.tablaT)}<div class="tbl">${headRow}${bodyRows}</div>${foot()}`;
+  }
+  else if (type === 'prematch') {
+    body = `${head('Previa', state.pmPhase)}<div class="pmwrap">` +
+      `<div class="pmvs"><div class="pmside">${img(state.pmHome)}<span class="nm">${esc(tn(state.pmHome))}</span></div>` +
+      `<div class="pmx">VS</div>` +
+      `<div class="pmside">${img(state.pmAway)}<span class="nm">${esc(tn(state.pmAway))}</span></div></div>` +
+      `<div class="pminfo"><span>📅 ${esc(state.pmDate)}</span><span>🕘 ${esc(state.pmTime)}</span><span>🏟️ ${esc(state.pmStad)}</span></div>` +
+      (state.pmCta.trim() ? `<div class="pmcta">¿QUIÉN GANA? 👉 ${esc(state.pmCta)}</div>` : '') +
+      `</div>${foot()}`;
+  }
   else if (type === 'match') {
     body = `${head('Partido del día', 'Mundial 2026')}<div class="vsw"><div class="side">${img(state.mhome)}<span class="nm">${esc(tn(state.mhome))}</span></div><div class="vs">VS</div><div class="side">${img(state.maway)}<span class="nm">${esc(tn(state.maway))}</span></div></div><div class="info">🕘 ${esc(state.mtime)} · 🏟️ ${esc(state.mstad)}</div>${foot()}`;
   }

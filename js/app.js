@@ -59,7 +59,22 @@ function previewFit() {
   const s = Math.min(availW / placa.offsetWidth, availH / placa.offsetHeight, 1.7);
   wrap.style.transform = `scale(${Math.max(0.25, s)})`;
 }
-window.addEventListener('resize', previewFit);
+/* En móvil, mostrar/ocultar la barra del navegador dispara 'resize' por cambio de
+   ALTURA y antes eso reescalaba el preview (se "movía" solo). Ahora reaccionamos
+   solo a cambios reales de ANCHO; el alto del stage es fijo (svh) y no necesita recálculo. */
+let _lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (Math.abs(window.innerWidth - _lastW) < 2) return;
+  _lastW = window.innerWidth;
+  previewFit();
+});
+/* Si el contenedor del escenario cambia de tamaño por otra razón (ej. abrir teclado
+   en desktop, cambios de layout), un observer lo mantiene ajustado sin tocar el scroll. */
+if (window.ResizeObserver) {
+  const _ro = new ResizeObserver(() => previewFit());
+  const _canvas = document.querySelector('.stage-canvas');
+  if (_canvas) _ro.observe(_canvas);
+}
 
 /* ---------- Selector de tamaño ---------- */
 $('sizes').onclick = e => {

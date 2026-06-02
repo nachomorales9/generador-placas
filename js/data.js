@@ -31,7 +31,8 @@ const tn = iso => { const t = ALL.find(x => x[0] === iso); return t ? t[1] : iso
 // Tipos de placa. Agrupados por categoría para el selector.
 const TYPES = [
   // — Fútbol / Mundial —
-  ['grupo','Grupo'],['match','Partido del día'],['result','Resultado'],
+  ['grupo','Grupo'],['tabla','Tabla de posiciones'],
+  ['prematch','Previa / Día de partido'],['match','Partido del día'],['result','Resultado'],
   ['rank','Ranking / Top'],['poll','Encuesta'],['quote','Frase / Cita'],
   ['day','Jornada'],['stat','Estadística'],
   ['big','Número gigante'],['count','Cuenta regresiva'],['vs','Comparación VS'],
@@ -72,10 +73,14 @@ const FONTS = [
 
 // Presets de fondo: [nombre, gradiente CSS]
 const BACKGROUNDS = [
-  // oscuros
-  ['Verde',     'linear-gradient(160deg,#0e1f15,#06120b)'],
+  // ===== Base de marca Fulbazo (recomendados) =====
+  ['Marca',     'radial-gradient(130% 120% at 75% 10%,#0e7a38,#04110b 70%)'], // degradé cabecera
+  ['Noche',     'linear-gradient(160deg,#0c5a2c,#04110b)'],                    // verde cancha → noche
+  ['Cancha',    'linear-gradient(160deg,#0e1f15,#04110b)'],                    // verde sobrio
+  ['Profundo',  'linear-gradient(160deg,#071a10,#04110b)'],                    // casi plano, para texto largo
+  // ===== Otros oscuros =====
   ['Esmeralda', 'linear-gradient(160deg,#0a3d2e,#04120d)'],
-  ['Noche',     'linear-gradient(160deg,#171a26,#0a0b12)'],
+  ['Carbón v.', 'linear-gradient(160deg,#171a26,#0a0b12)'],
   ['Océano',    'linear-gradient(160deg,#0d2b3e,#05101c)'],
   ['Cielo',     'linear-gradient(160deg,#1e3a5f,#0a1a30)'],
   ['Violeta',   'linear-gradient(160deg,#2a1a4a,#0e0820)'],
@@ -99,11 +104,14 @@ const BACKGROUNDS = [
 ];
 
 // Colores de acento sugeridos: [nombre, color]
+// Primero la base de marca Fulbazo, después la paleta libre para configurar.
 const ACCENTS = [
-  ['Dorado','#ffce2e'],['Ámbar','#ffb300'],['Verde','#19c37d'],['Lima','#9ee37d'],
-  ['Esmeralda','#10b981'],['Celeste','#3ad0ff'],['Azul','#4f8cff'],['Índigo','#7c8cff'],
-  ['Violeta','#c084fc'],['Magenta','#ff5cc8'],['Rosa','#ff7eb6'],['Rojo','#ff5252'],
-  ['Coral','#ff7a59'],['Naranja','#ff8a3d'],['Turquesa','#2dd4bf'],['Blanco','#ffffff']
+  // ===== Base Fulbazo =====
+  ['Dorado copa','#ffcb3d'],['Verde brillante','#34e879'],['Rojo en vivo','#ff4d4d'],['Blanco hueso','#f1f7f2'],
+  // ===== Otros =====
+  ['Ámbar','#ffb300'],['Lima','#9ee37d'],['Esmeralda','#10b981'],['Celeste','#3ad0ff'],
+  ['Azul','#4f8cff'],['Índigo','#7c8cff'],['Violeta','#c084fc'],['Magenta','#ff5cc8'],
+  ['Rosa','#ff7eb6'],['Coral','#ff7a59'],['Naranja','#ff8a3d'],['Turquesa','#2dd4bf']
 ];
 
 // Logos disponibles. Token: 'default' | 'none' | 'emoji:X' | 'custom'

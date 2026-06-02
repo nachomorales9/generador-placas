@@ -24,6 +24,8 @@ function bind(id, key) {
 // Mapa de bindings por tipo: [idDelControl, claveDeState]
 const BIND_MAP = {
   grupo:  [['c_g','grupo']],
+  tabla:  [['c_t','tablaT'],['c_q','tablaQ'],['c_l','tablaLines']],
+  prematch:[['c_phase','pmPhase'],['c_h','pmHome'],['c_a','pmAway'],['c_date','pmDate'],['c_t','pmTime'],['c_s','pmStad'],['c_cta','pmCta']],
   match:  [['c_h','mhome'],['c_a','maway'],['c_t','mtime'],['c_s','mstad']],
   result: [['c_h','rhome'],['c_a','raway'],['c_sh','rsh'],['c_sa','rsa'],['c_info','rinfo']],
   rank:   [['c_t','rkTitle'],['c_l','rkLines']],
@@ -58,6 +60,15 @@ function renderControls() {
 
   if (type === 'grupo') {
     h = sel('c_g', state.grupo, 'Grupo', gOpts(state.grupo));
+  } else if (type === 'tabla') {
+    h = `<div class="row2">${inp('c_t', state.tablaT, 'Título')}${inp('c_q', state.tablaQ, 'Clasifican (N)')}</div>`
+      + txt('c_l', state.tablaLines, 'Una línea por equipo: iso | PJ | PG | PE | PP | GF | GC')
+      + `<div class="hintline">DIF (dif. de gol) y PTS se calculan solos · la tabla se ordena automáticamente · los primeros N quedan resaltados. Códigos de bandera (iso): ar, br, fr, es, mx, us…</div>`;
+  } else if (type === 'prematch') {
+    h = `<div class="row2">${inp('c_phase', state.pmPhase, 'Fase / Grupo')}${inp('c_date', state.pmDate, 'Fecha')}</div>`
+      + `<div class="row2">${sel('c_h', state.pmHome, 'Local', tOpts(state.pmHome))}${sel('c_a', state.pmAway, 'Visitante', tOpts(state.pmAway))}</div>`
+      + `<div class="row2">${inp('c_t', state.pmTime, 'Hora')}${inp('c_s', state.pmStad, 'Estadio')}</div>`
+      + inp('c_cta', state.pmCta, 'CTA (¿quién gana?)');
   } else if (type === 'match') {
     h = `<div class="row2">${sel('c_h', state.mhome, 'Local', tOpts(state.mhome))}${sel('c_a', state.maway, 'Visitante', tOpts(state.maway))}</div><div class="row2">${inp('c_t', state.mtime, 'Hora')}${inp('c_s', state.mstad, 'Estadio')}</div>`;
   } else if (type === 'result') {
