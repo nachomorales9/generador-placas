@@ -57,7 +57,10 @@ function previewFit() {
   wrap.style.transform = 'scale(1)';
   const availW = canvas.clientWidth - 32, availH = canvas.clientHeight - 32;
   const s = Math.min(availW / placa.offsetWidth, availH / placa.offsetHeight, 1.7);
-  wrap.style.transform = `scale(${Math.max(0.25, s)})`;
+  const z = Math.max(0.25, s);
+  wrap.style.transform = `scale(${z})`;
+  const zoom = document.getElementById('zoomInfo');
+  if (zoom) zoom.textContent = Math.round(z * 100) + '%';
 }
 /* En móvil, mostrar/ocultar la barra del navegador dispara 'resize' por cambio de
    ALTURA y antes eso reescalaba el preview (se "movía" solo). Ahora reaccionamos
@@ -75,6 +78,44 @@ if (window.ResizeObserver) {
   const _canvas = document.querySelector('.stage-canvas');
   if (_canvas) _ro.observe(_canvas);
 }
+
+/* ---------- Panel izquierdo redimensionable (arrastrar el divisor) ---------- */
+(function () {
+  const layout = document.querySelector('.layout');
+  const resizer = document.getElementById('resizer');
+  if (!layout || !resizer) return;
+  const MIN = 300, MAX = 680, DEFAULT = 360, KEY = 'fulbazo_sbw';
+  const apply = w => layout.style.setProperty('--sb-w', Math.max(MIN, Math.min(MAX, w)) + 'px');
+
+  const saved = parseInt(localStorage.getItem(KEY), 10);
+  if (saved) apply(saved);
+
+  let dragging = false;
+  const posX = e => (e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX);
+  const onMove = e => {
+    if (!dragging) return;
+    apply(posX(e) - layout.getBoundingClientRect().left);
+    if (e.cancelable) e.preventDefault();
+  };
+  const stop = () => {
+    if (!dragging) return;
+    dragging = false;
+    resizer.classList.remove('dragging');
+    document.body.style.userSelect = '';
+    localStorage.setItem(KEY, parseInt(getComputedStyle(layout).getPropertyValue('--sb-w'), 10) || DEFAULT);
+    previewFit();
+  };
+  const start = e => { dragging = true; resizer.classList.add('dragging'); document.body.style.userSelect = 'none'; if (e.cancelable) e.preventDefault(); };
+
+  resizer.addEventListener('mousedown', start);
+  resizer.addEventListener('touchstart', start, { passive: false });
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('mouseup', stop);
+  window.addEventListener('touchend', stop);
+  // doble clic → vuelve al ancho por defecto
+  resizer.addEventListener('dblclick', () => { apply(DEFAULT); localStorage.setItem(KEY, DEFAULT); previewFit(); });
+})();
 
 /* ---------- Selector de tamaño ---------- */
 $('sizes').onclick = e => {
@@ -211,8 +252,9 @@ const canvasToBlob = canvas => new Promise(res => canvas.toBlob(res, 'image/png'
 $('dl').onclick = async () => {
   const el = $('placa');
   const btn = $('dl');
-  const prev = btn.textContent;
-  btn.textContent = 'Generando…';
+  const label = $('dlLabel');
+  const prev = label.textContent;
+  label.textContent = 'Generando…';
   btn.disabled = true;
   // Neutralizar el zoom del preview para que html2canvas mida el tamaño real
   const wrap = document.getElementById('placaScale');
@@ -249,13 +291,13 @@ $('dl').onclick = async () => {
     alert('No se pudo generar la imagen. Si abrís el archivo localmente, las banderas pueden bloquear la descarga: subilo a Vercel o serví la carpeta con un servidor local.');
   } finally {
     wrap.style.transform = prevTransform;
-    btn.textContent = prev;
+    label.textContent = prev;
     btn.disabled = false;
   }
 };
 
 /* ---------- Arranque ---------- */
-if (isMobile) $('dl').textContent = '⬇ Guardar imagen';
+if (isMobile) $('dlLabel').textContent = 'Guardar imagen';
 sizeInfo.textContent = SIZE_LABELS[config.size];
 renderControls();
 draw();

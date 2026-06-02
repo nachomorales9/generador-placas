@@ -14,10 +14,16 @@
 <body>
 
 <header class="topbar">
-  <div class="brandmark"><span class="logo-dot">⚽</span><div><div class="tb-title">Fulbazo · Placas</div><div class="tb-sub">Paleta de marca · 27 plantillas · todo configurable</div></div></div>
+  <div class="brandmark">
+    <img class="brand-logo" src="assets/logo.png" alt="Fulbazo">
+    <div><div class="tb-title">Fulbazo Placas</div><div class="tb-sub">Generador de gráficas para tus redes</div></div>
+  </div>
   <div class="topbar-actions">
     <span class="size-info" id="sizeInfo">1080 × 1080 px</span>
-    <button class="btn-dl" id="dl">⬇ Descargar PNG</button>
+    <button class="btn-dl" id="dl">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 18h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="dlLabel">Descargar PNG</span>
+    </button>
   </div>
 </header>
 
@@ -81,12 +87,18 @@
     </section>
   </aside>
 
+  <!-- divisor arrastrable: agranda / achica el panel izquierdo -->
+  <div class="resizer" id="resizer" title="Arrastrá para agrandar el panel · doble clic para resetear"></div>
+
   <!-- ===================== ESCENARIO / VISTA PREVIA ===================== -->
   <main class="stage">
     <div class="stage-canvas">
       <div class="placa-scale" id="placaScale"><div id="placaHolder"></div></div>
     </div>
-    <div class="stage-hint">Vista previa en vivo · se descarga en alta resolución</div>
+    <div class="stage-bar">
+      <span class="stage-chip">Vista previa en vivo</span>
+      <span class="stage-chip muted">Zoom <b id="zoomInfo">100%</b></span>
+    </div>
   </main>
 </div>
 
